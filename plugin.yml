@@ -1,0 +1,12 @@
+name: warp
+version: 1.0
+main: com.mati.warp.Main
+commands:
+  warp:
+    description: Przenosi do wskazanego warpa.
+  setwarp:
+    description: Ustala warpa na aktualną pozycję.
+  delwarp:
+    description: Usuwa warpa.
+  listwarps:
+    description: Wypisuje zapisane warpy.
