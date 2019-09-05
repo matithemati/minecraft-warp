@@ -58,6 +58,7 @@ public class DelWarp implements CommandExecutor {
 			player.sendMessage(ChatColor.RED + "Wyst¹pi³ b³¹d!");
 		}
 		
+		Main.closeConnection();
 		return false;
 	}
 

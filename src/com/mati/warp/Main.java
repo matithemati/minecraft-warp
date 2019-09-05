@@ -10,8 +10,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class Main extends JavaPlugin {
 
 	private static Connection connection;
-	private String host, database, username, password;
-	private int port;
+	private static String host;
+	private static String database;
+	private static String username;
+	private static String password;
+	private static int port;
 
 	@Override
 	public void onEnable() {
@@ -20,35 +23,61 @@ public class Main extends JavaPlugin {
 		getCommand("setwarp").setExecutor(new SetWarp());
 		getCommand("delwarp").setExecutor(new DelWarp());
 		getCommand("listwarps").setExecutor(new ListWarps());
-
-		host = "---";
+		//connect();
+	}
+	
+	private static void connect() {
+		host = "ndb.mineserv.eu";
 		port = 3306;
-		database = "---";
-		username = "---";
-		password = "---";
+		database = "s33591";
+		username = "s33591";
+		password = "3UtgzySkVE";
+
+		openConnection();
+	}
+	
+	public static void closeConnection() {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			System.out.println("------------------------------------------------");
+			System.out.println(connection);
+			System.out.println("------------------------------------------------");
+			e.printStackTrace();
+			System.out.println("------------------------------------------------");
+		}
+	}
+
+	private static void openConnection() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				return;
+			}
+		} catch (SQLException e1) {
+			System.out.println("------------------------------------------------");
+			System.out.println(connection);
+			System.out.println("------------------------------------------------");
+			e1.printStackTrace();
+			System.out.println("------------------------------------------------");
+		}
 
 		try {
-			openConnection();
-			System.out.println("Connected!");
-
-		}
-
-		catch (SQLException x) {
-			x.printStackTrace();
+			connection = DriverManager.getConnection("jdbc:mysql://" + Main.host + ":" + Main.port + "/" + Main.database,
+					Main.username, Main.password);
+		} catch (SQLException e) {
+			System.out.println("------------------------------------------------");
+			System.out.println(connection);
+			System.out.println("------------------------------------------------");
+			e.printStackTrace();
+			System.out.println("------------------------------------------------");
 		}
 	}
 
-	private void openConnection() throws SQLException {
-		if (connection != null && !connection.isClosed()) {
-			return;
+	public static PreparedStatement prepareStatement(String query) throws SQLException {
+		if(connection == null || connection.isClosed()) {
+			connect();
 		}
-
-		connection = DriverManager.getConnection("jdbc:mysql://" + this.host + ":" + this.port + "/" + this.database,
-				this.username, this.password);
-	}
-
-	public static PreparedStatement prepareStatement(String query) {
-
+		
 		PreparedStatement ps = null;
 
 		try {

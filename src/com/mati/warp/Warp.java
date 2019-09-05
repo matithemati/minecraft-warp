@@ -54,7 +54,7 @@ public class Warp implements CommandExecutor {
 			e.printStackTrace();
 			player.sendMessage(ChatColor.RED + "Wyst¹pi³ b³¹d!");
 		}
-
+		Main.closeConnection();
 		return false;
 	}
 

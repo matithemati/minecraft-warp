@@ -69,7 +69,7 @@ public class ListWarps implements CommandExecutor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		Main.closeConnection();
 		return false;
 	}
 	
